@@ -31,7 +31,7 @@ public class AlumnoData {
             ps.setString(1, a.getNombre());
             
         } catch(SQLException ex){
-            
+            // comentario para probar PR
         }
     }
 }
