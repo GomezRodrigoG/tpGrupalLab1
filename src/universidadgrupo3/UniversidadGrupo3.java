@@ -6,7 +6,9 @@
 package universidadgrupo3;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -26,6 +28,7 @@ public class UniversidadGrupo3 {
         try{
             Context context = new Context();
             Connection con = context.getConexion();
+            Statement st = con.createStatement();
             
         }catch(ClassNotFoundException e){
             JOptionPane.showMessageDialog(null,"Error al cargar los driver de conexion");
