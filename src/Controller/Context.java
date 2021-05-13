@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package universidadgrupo3.Models;
+package Controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,7 +22,6 @@ public class Context {
     
     public Context() throws ClassNotFoundException{
             Class.forName("org.mariadb.jdbc.Driver");
-        
     }
     
     public Context(String url, String usuario, String password) throws ClassNotFoundException {
