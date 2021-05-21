@@ -43,7 +43,7 @@ public class MateriaData {
             
             if(rSet.next()){
                 materia.setId_materia(rSet.getInt(1));
-                JOptionPane.showMessageDialog(null,"Guardado correctamente.");
+                JOptionPane.showMessageDialog(null,"Materia guardada correctamente.");
             } else {
                 JOptionPane.showMessageDialog(null,"No se guardo.");
             }
@@ -126,15 +126,15 @@ public class MateriaData {
             ps.setInt(1, id);
                       
             if(ps.executeUpdate() == 1){
-                JOptionPane.showMessageDialog(null,"Alumno borrado.");
+                JOptionPane.showMessageDialog(null,"Materia dada de baja");
             }else {
-                JOptionPane.showMessageDialog(null,"El alumno que quise borrar no existe");
+                JOptionPane.showMessageDialog(null,"La materia a la que le quiere dar la baja no existe");
             }
             
             ps.close();
     
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al borrar un alumno.");
+            JOptionPane.showMessageDialog(null,"Error al dar de baja a una materia. SQL");
         }
     }
     
