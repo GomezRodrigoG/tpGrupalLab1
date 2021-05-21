@@ -74,7 +74,8 @@ public class UniversidadGrupo3 {
             
             CursadaData cData = new CursadaData(context);
             Cursada incripcion = new Cursada(alumno1,materia,9);
-            //NO FUNCIONO//cData.guardarCursada(incripcion);
+            //NO FUNCIONO//
+            cData.guardarCursada(incripcion);
             //FUNCIONA//cData.borrarCursadaDeUnaMateriaDeUnAlumno(1, 104);
             //NO FUNCIONA//cData.actualizarNotaCursada(3, 101, 1);
             //FUNCIONA PERO PUEDE MEJORAR//System.out.println(cData.obtenerMateriasCursadas(1));
