@@ -85,6 +85,11 @@ public class Alumno {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
+
+    @Override
+    public String toString() {
+        return "id_alumno: " + id_alumno + ", nombre: " + nombre + ", legajo: " + legajo + ", estado: " + estado +"\n";
+    }
     
     
 }

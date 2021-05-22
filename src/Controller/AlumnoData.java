@@ -28,8 +28,8 @@ public class AlumnoData {
     
     private Connection conexion ;
 
-    public AlumnoData(Connection conexion) {
-        this.conexion = conexion;
+    public AlumnoData(Context conexion) throws SQLException {
+        this.conexion = conexion.getConexion();
     }
     
     
@@ -133,8 +133,8 @@ public class AlumnoData {
            
            
             ps.executeUpdate();
-            
-                ps.close();
+            JOptionPane.showMessageDialog(null,"El alumno ingresado se actualizo");
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"El alumno ingresado no se pudo actualizar");
         }  
@@ -152,10 +152,10 @@ public class AlumnoData {
                        
            
             ps.executeUpdate();
-            
+            JOptionPane.showMessageDialog(null, "Alumno Dada de Baja");
                 ps.close();
         } catch (SQLException ex ) {
-            JOptionPane.showMessageDialog(null,"No se pudo eliminar el alumno.");
+            JOptionPane.showMessageDialog(null,"No se pudo eliminar el alumno. SQL");
         }  
     
     }
