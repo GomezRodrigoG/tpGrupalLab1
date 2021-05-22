@@ -91,6 +91,34 @@ public class AlumnoData {
         
     }
     
+    
+    public Alumno buscarAlumnoId(int id){
+        String query="select * from alumno where id_alumno=?";
+        Alumno alum= null;
+        try {
+            PreparedStatement ps = conexion.prepareStatement(query); 
+                ps.setInt(1,id);
+                ResultSet rs=ps.executeQuery();
+                while(rs.next()){
+                    alum = new Alumno();
+                    alum.setId_alumno(id);
+                    alum.setNombre(rs.getString("nombre"));
+                    alum.setApellido(rs.getString("apellido"));
+                    alum.setFecha_nac(rs.getDate("fecha_nac").toLocalDate());
+                    alum.setLegajo(rs.getInt("legajo"));
+                    alum.setEstado(rs.getBoolean("estado"));
+                
+            }
+                ps.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return alum;
+        
+    }
+    
     public List<Alumno> getAllAlumnos(){
         String query="SELECT * FROM alumno ";
         Alumno alum;
@@ -166,15 +194,17 @@ public class AlumnoData {
         try {
             PreparedStatement ps=conexion.prepareStatement(query);
            
-            ps.setInt(1,legajo);
-                
-                       
+            ps.setInt(1,legajo);          
            
-            ps.executeUpdate();
+            if(ps.executeUpdate()==1){
+                JOptionPane.showMessageDialog(null, "Se Elimino Alumno con Exito");
+            }else{
+                JOptionPane.showMessageDialog(null, "No Se Elimino Alumno");
+            }
             
-                ps.close();
+            ps.close();
         } catch (SQLException ex ) {
-            JOptionPane.showMessageDialog(null,"No se pudo eliminar el alumno.");
+            JOptionPane.showMessageDialog(null,"No se pudo eliminar el alumno."+ex.getMessage());
         }  
     
     }

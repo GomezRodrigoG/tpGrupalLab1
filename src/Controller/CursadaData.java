@@ -66,24 +66,30 @@ public class CursadaData {
         
         String query="Select * from cursada";
         try {
+
             PreparedStatement ps = conexion.prepareStatement(query);
             
             ResultSet rs = ps.executeQuery();
             
+            Context con = new Context();
+            AlumnoData alumnoData = new AlumnoData(con);
+            MateriaData materiaData = new MateriaData(con);
+            
             while(rs.next()){
-                Alumno a = new Alumno();
-                Materia m = new Materia();
+                Alumno a;
+                Materia m;
+                a = alumnoData.buscarAlumnoId(rs.getInt("id_alumno"));
+                m = materiaData.buscarMateria(rs.getInt("id_materia"));
                 Cursada cursada = new Cursada(a, m, 0);
-                
                 cursada.setId_cursada(rs.getInt("id_cursada"));
-                cursada.getAlumno().setId_alumno(rs.getInt("id_alumno"));
-                cursada.getMateria().setId_materia(rs.getInt("id_materia"));
                 cursada.setNota(rs.getDouble("nota"));
                 cursadas.add(cursada);
             }
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Error al buscar cursadas.");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CursadaData.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return(cursadas);
@@ -93,28 +99,48 @@ public class CursadaData {
         List <Cursada> cursadasAlumno = new ArrayList<>();
         
         String query="Select * from cursada where id_alumno=?";
-        try {
+         try {
+             
+            Context con = new Context();
+            AlumnoData alumnoData = new AlumnoData(con);
+            MateriaData materiaData = new MateriaData(con);
+             
             PreparedStatement ps = conexion.prepareStatement(query);
+           
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
             
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                do{
+                    Alumno a;
+                    Materia m;
+                    a = alumnoData.buscarAlumnoId(id);
+                    m = materiaData.buscarMateria(rs.getInt("id_materia"));
+                    Cursada cursada = new Cursada(a, m, 0);
+                    cursada.setId_cursada(rs.getInt("id_cursada"));
+                    cursada.setNota(rs.getDouble("nota"));
+                    cursadasAlumno.add(cursada);
+                }while(rs.next());
+                ps.close();
+            }else{
+                JOptionPane.showMessageDialog(null, "No se encontraron cursadas");
+            }
             while(rs.next()){
-                Alumno a = new Alumno();
-                Materia m = new Materia();
+                Alumno a;
+                Materia m;
+                a = alumnoData.buscarAlumnoId(id);
+                m = materiaData.buscarMateria(rs.getInt("id_materia"));
                 Cursada cursada = new Cursada(a, m, 0);
-                
                 cursada.setId_cursada(rs.getInt("id_cursada"));
-                cursada.getAlumno().setId_alumno(rs.getInt("id_alumno"));
-                cursada.getMateria().setId_materia(rs.getInt("id_materia"));
                 cursada.setNota(rs.getDouble("nota"));
                 cursadasAlumno.add(cursada);
             }
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Error al buscar cursadas.");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CursadaData.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
         return(cursadasAlumno);
     }
      
