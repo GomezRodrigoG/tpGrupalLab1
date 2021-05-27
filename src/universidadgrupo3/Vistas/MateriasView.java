@@ -5,6 +5,11 @@
  */
 package universidadgrupo3.Vistas;
 
+import universidadgrupo3.controller.Context;
+import universidadgrupo3.controller.MateriaData;
+import java.sql.SQLException;
+import universidadgrupo3.Models.Materia;
+
 /**
  *
  * @author PC
@@ -14,8 +19,11 @@ public class MateriasView extends javax.swing.JInternalFrame {
     /**
      * Creates new form MateriasView
      */
-    public MateriasView() {
+    private MateriaData materiaData;
+    
+    public MateriasView(Context conexion) throws SQLException {
         initComponents();
+        materiaData = new MateriaData(conexion);
     }
 
     /**
@@ -54,6 +62,11 @@ public class MateriasView extends javax.swing.JInternalFrame {
 
         jbBuscar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbBuscar.setText("BUSCAR");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText("NOMBRE");
@@ -153,6 +166,20 @@ public class MateriasView extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+        // TODO add your handling code here:
+        int id = Integer.parseInt(jtId.getText());
+        
+        Materia materia = null;
+        
+        materia = materiaData.buscarMateria(id);
+        
+        if(materia != null){
+            jtNombre.setText(materia.getNombre_materia());
+            jtAnio.setText(materia.getAnio()+"");
+        }
+    }//GEN-LAST:event_jbBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

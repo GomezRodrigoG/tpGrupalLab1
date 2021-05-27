@@ -1,6 +1,6 @@
 package universidadgrupo3;
 
-import Controller.AlumnoData;
+import universidadgrupo3.controller.AlumnoData;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import Controller.Context;
-import Controller.CursadaData;
+import universidadgrupo3.controller.Context;
+import universidadgrupo3.controller.CursadaData;
 import universidadgrupo3.Models.Materia;
-import Controller.MateriaData;
+import universidadgrupo3.controller.MateriaData;
 import java.time.LocalDate;
 import universidadgrupo3.Models.Alumno;
 import universidadgrupo3.Models.Cursada;
