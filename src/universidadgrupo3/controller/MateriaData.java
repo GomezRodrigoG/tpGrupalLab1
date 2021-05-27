@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package universidadgrupo3.controller;
 
+import universidadgrupo3.controller.Context;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

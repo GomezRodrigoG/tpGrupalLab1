@@ -1,5 +1,11 @@
 package universidadgrupo3.Vistas;
 
+import universidadgrupo3.controller.Context;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,8 +21,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form Escritorio
      */
-    public MenuPrincipal() {
+    
+    private Context conexion;
+    
+    public MenuPrincipal() throws ClassNotFoundException {
         initComponents();
+        
+        conexion = new Context();
     }
 
     /**
@@ -89,6 +100,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Materias");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
 
         jmiFormularioMaterias.setText("Formulario de Materias");
         jmiFormularioMaterias.addActionListener(new java.awt.event.ActionListener() {
@@ -168,8 +184,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         escritorio.removeAll();
         escritorio.repaint();
-        AlumnosView av = new AlumnosView();
+        
+        AlumnosView av = null;
+        
+        try {
+            av = new AlumnosView(conexion);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error de conexion");
+        }
+        
         av.setVisible(true);
+        
         escritorio.add(av);
         escritorio.moveToFront(av);
     }//GEN-LAST:event_jmiFormularioAlumnosActionPerformed
@@ -178,9 +203,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         escritorio.removeAll();
         escritorio.repaint();
-        AlumnosMateriasView am = new AlumnosMateriasView();
+        
+        AlumnosMateriasView am = null;
+        
+        try {
+            am = new AlumnosMateriasView(conexion);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error de conexion");
+        }
+        
         am.setVisible(true);
         escritorio.add(am);
+        
         escritorio.moveToFront(am);
     }//GEN-LAST:event_jmiListadoAlumnosxMateriaActionPerformed
 
@@ -188,7 +222,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         escritorio.removeAll();
         escritorio.repaint();
-        MateriasView am = new MateriasView();
+        MateriasView am = null;
+        
+        try {
+            am = new MateriasView(conexion);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error de conexion");
+        }
+        
         am.setVisible(true);
         escritorio.add(am);
         escritorio.moveToFront(am);
@@ -218,6 +259,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
         escritorio.add(am);
         escritorio.moveToFront(am);
     }//GEN-LAST:event_jmiManejoInscripcionesActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,7 +297,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuPrincipal().setVisible(true);
+                try {
+                    new MenuPrincipal().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null,"Error al cargar los driver de conexion");
+                }
             }
         });
     }

@@ -5,10 +5,10 @@
  */
 package universidadgrupo3.Vistas;
 
-import Controller.AlumnoData;
-import Controller.Context;
-import Controller.CursadaData;
-import Controller.MateriaData;
+import universidadgrupo3.controller.AlumnoData;
+import universidadgrupo3.controller.Context;
+import universidadgrupo3.controller.CursadaData;
+import universidadgrupo3.controller.MateriaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -30,30 +30,22 @@ public class AlumnosMateriasView extends javax.swing.JInternalFrame {
     private MateriaData materiaData;
     private AlumnoData alumnoData;
     private ArrayList<Alumno> listaAlumnos;
-    private Context conexion;
     /**
      * Creates new form AlumnosMateriasView
      */
-    public AlumnosMateriasView() {
+    public AlumnosMateriasView(Context conexion) throws SQLException {
         initComponents();
-        try {
-            conexion = new Context();
-            modelo = new DefaultTableModel();
-            cursadaData = new CursadaData(conexion);
-            listaCursadas = (ArrayList)cursadaData.obtenerCursadas();
-            materiaData = new MateriaData(conexion);
-            listaMaterias = (ArrayList)materiaData.obtenerMaterias();
-            alumnoData = new AlumnoData(conexion);
-            listaAlumnos = (ArrayList)alumnoData.getAllAlumnos();
-            cargarMaterias();
-            armarCabeceraTabla();
-            cargarDatos();
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AlumnosMateriasView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AlumnosMateriasView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        modelo = new DefaultTableModel();
+        cursadaData = new CursadaData(conexion);
+        listaCursadas = (ArrayList)cursadaData.obtenerCursadas();
+        materiaData = new MateriaData(conexion);
+        listaMaterias = (ArrayList)materiaData.obtenerMaterias();
+        alumnoData = new AlumnoData(conexion);
+        listaAlumnos = (ArrayList)alumnoData.getAllAlumnos();
+        cargarMaterias();
+        armarCabeceraTabla();
+        cargarDatos();
         
     }
 

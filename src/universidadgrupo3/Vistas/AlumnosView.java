@@ -5,8 +5,8 @@
  */
 package universidadgrupo3.Vistas;
 
-import Controller.AlumnoData;
-import Controller.Context;
+import universidadgrupo3.controller.AlumnoData;
+import universidadgrupo3.controller.Context;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.sql.Date;
@@ -26,15 +26,13 @@ import universidadgrupo3.Models.Alumno;
  */
 public class AlumnosView extends javax.swing.JInternalFrame {
     private AlumnoData alumnoData;
-    private Context conexion;
 
     /**
      * Creates new form AlumnosView
      */
-    public AlumnosView() {
+    public AlumnosView(Context conexion) throws SQLException {
             initComponents();
-        try {
-            conexion = new Context();
+            
             alumnoData = new AlumnoData(conexion);
             jtId.setEnabled(false);
             // con esto se evita que el usuario pueda ingresar una fecha en el editor de jdatechooser
@@ -43,9 +41,6 @@ public class AlumnosView extends javax.swing.JInternalFrame {
             editor.setEditable(false);
             // se setea la fecha de hoy en el jDateChooser por defecto
             jdcFecha.setDate(Date.valueOf(LocalDate.now()));
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(AlumnosView.class.getName()).log(Level.SEVERE, null, ex);
-        }
        
     }
 
