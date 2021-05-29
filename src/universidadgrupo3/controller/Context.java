@@ -21,7 +21,7 @@ public class Context {
     private Connection conexion;
     
     public Context() throws ClassNotFoundException{
-            Class.forName("org.mariadb.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
     }
     
     public Context(String url, String usuario, String password) throws ClassNotFoundException {
@@ -30,7 +30,7 @@ public class Context {
         this.password = password;
 
         //Cargamos las clases de mariadb que implementan JDBC
-        Class.forName("org.mariadb.jdbc.Driver");
+        Class.forName("com.mysql.jdbc.Driver");
 
     }
     
