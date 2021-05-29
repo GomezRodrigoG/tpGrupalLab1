@@ -8,6 +8,7 @@ package universidadgrupo3.Vistas;
 import universidadgrupo3.controller.Context;
 import universidadgrupo3.controller.MateriaData;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import universidadgrupo3.Models.Materia;
 
 /**
@@ -15,10 +16,6 @@ import universidadgrupo3.Models.Materia;
  * @author PC
  */
 public class MateriasView extends javax.swing.JInternalFrame {
-
-    /**
-     * Creates new form MateriasView
-     */
     private MateriaData materiaData;
     
     public MateriasView(Context conexion) throws SQLException {
@@ -79,15 +76,35 @@ public class MateriasView extends javax.swing.JInternalFrame {
 
         jbGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbGuardar.setText("GUARDAR");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
 
         jbBorrar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbBorrar.setText("BORRAR");
+        jbBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBorrarActionPerformed(evt);
+            }
+        });
 
         jbActualizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbActualizar.setText("ACTUALIZAR");
+        jbActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbActualizarActionPerformed(evt);
+            }
+        });
 
         jbLimpiar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbLimpiar.setText("LIMPIAR");
+        jbLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,18 +185,75 @@ public class MateriasView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-        // TODO add your handling code here:
         int id = Integer.parseInt(jtId.getText());
         
         Materia materia = null;
         
         materia = materiaData.buscarMateria(id);
         
-        if(materia != null){
-            jtNombre.setText(materia.getNombre_materia());
-            jtAnio.setText(materia.getAnio()+"");
-        }
+        // la materia no se encontro
+        if(materia == null) return;
+        
+        jtNombre.setText(materia.getNombre_materia());
+        jtAnio.setText(materia.getAnio()+"");
+        jchEstado.setSelected(materia.isEstado());
     }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
+        jtId.setText("");
+        jtNombre.setText("");
+        jtAnio.setText("");
+        jchEstado.setSelected(false);
+    }//GEN-LAST:event_jbLimpiarActionPerformed
+
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        Materia materia = new Materia();
+        // recupero los datos de la vista
+        materia.setNombre_materia(jtNombre.getText());
+        materia.setAnio(Integer.parseInt(jtAnio.getText()));
+        materia.setEstado(jchEstado.isSelected());
+        
+        materiaData.guardarMateria(materia);
+        // limpio los campos
+        jtId.setText("");
+        jtNombre.setText("");
+        jtAnio.setText("");
+        jchEstado.setSelected(false);
+    }//GEN-LAST:event_jbGuardarActionPerformed
+
+    private void jbBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarActionPerformed
+        String idString = jtId.getText();
+        
+        // si esta vacio, aviso que primero debe buscar la materia y salgo del metodo
+        if(idString == "") JOptionPane.showMessageDialog(null,"Para borrar una materia ingrese su id.");
+        
+        int id = Integer.parseInt(idString);
+        
+        materiaData.borrarMateria(id);
+    }//GEN-LAST:event_jbBorrarActionPerformed
+
+    private void jbActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarActionPerformed
+        String idString = jtId.getText();
+        
+        // vereficacion del campo id
+        if(idString == "") JOptionPane.showMessageDialog(null,"Para actualizar una materia es necesario su id.");
+        
+        int id = Integer.parseInt(idString);
+        
+        Materia materia = new Materia();
+        // recupero los datos de la vista
+        materia.setId_materia(id);
+        materia.setNombre_materia(jtNombre.getText());
+        materia.setAnio(Integer.parseInt(jtAnio.getText()));
+        materia.setEstado(jchEstado.isSelected());
+        //TODO no me esta actualizando el estado
+        materiaData.modificarMateria(materia);
+        // limpio los campos
+        jtId.setText("");
+        jtNombre.setText("");
+        jtAnio.setText("");
+        jchEstado.setSelected(false);
+    }//GEN-LAST:event_jbActualizarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
