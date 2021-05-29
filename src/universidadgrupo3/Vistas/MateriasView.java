@@ -185,7 +185,22 @@ public class MateriasView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-        int id = Integer.parseInt(jtId.getText());
+        String idString = jtId.getText();
+        
+        // vereficacion del campo id
+        if(idString.equals("")){
+            JOptionPane.showMessageDialog(null,"Para buscar una materia es necesario su id.");
+            return;
+        }
+        
+        int id = 0;
+        
+        try{
+            id = Integer.parseInt(idString);
+        } catch ( NumberFormatException nf ){
+            JOptionPane.showMessageDialog(null, "El id solo debe contener números");
+            return;
+        }
         
         Materia materia = null;
         
@@ -208,9 +223,36 @@ public class MateriasView extends javax.swing.JInternalFrame {
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         Materia materia = new Materia();
+        
         // recupero los datos de la vista
-        materia.setNombre_materia(jtNombre.getText());
-        materia.setAnio(Integer.parseInt(jtAnio.getText()));
+        // vereficacion del campo nombre
+        String nombreString = jtNombre.getText();
+        
+        if(nombreString.equals("")){
+            JOptionPane.showMessageDialog(null,"El nombre es requerido.");
+            return;
+        }
+        
+        materia.setNombre_materia(nombreString);
+        
+        // vereficacion del campo año
+        String anioString = jtAnio.getText();
+        
+        if(anioString.equals("")){
+            JOptionPane.showMessageDialog(null,"El año es requerido.");
+            return;
+        }
+        
+        int anio = 0;
+        
+        try{
+            anio = Integer.parseInt(anioString);
+        } catch ( NumberFormatException nf ){
+            JOptionPane.showMessageDialog(null, "El campo año solo admite números.");
+            return;
+        }
+        materia.setAnio(anio);
+        // estado
         materia.setEstado(jchEstado.isSelected());
         
         materiaData.guardarMateria(materia);
@@ -225,28 +267,79 @@ public class MateriasView extends javax.swing.JInternalFrame {
         String idString = jtId.getText();
         
         // si esta vacio, aviso que primero debe buscar la materia y salgo del metodo
-        if(idString == "") JOptionPane.showMessageDialog(null,"Para borrar una materia ingrese su id.");
+        if(idString.equals("")){
+            JOptionPane.showMessageDialog(null,"Para borrar una materia ingrese su id.");
+            return;
+        }
         
-        int id = Integer.parseInt(idString);
+        int id = 0;
+        
+        try{
+            id = Integer.parseInt(idString);
+        } catch ( NumberFormatException nf ){
+            JOptionPane.showMessageDialog(null, "El campo id solo admite números.");
+            return;
+        }
         
         materiaData.borrarMateria(id);
+        
+        // limpio los campos
+        jtId.setText("");
+        jtNombre.setText("");
+        jtAnio.setText("");
+        jchEstado.setSelected(false);
     }//GEN-LAST:event_jbBorrarActionPerformed
 
     private void jbActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarActionPerformed
         String idString = jtId.getText();
         
         // vereficacion del campo id
-        if(idString == "") JOptionPane.showMessageDialog(null,"Para actualizar una materia es necesario su id.");
+        if(idString.equals("")){
+            JOptionPane.showMessageDialog(null,"Para actualizar una materia es necesario su id.");
+            return;
+        }
         
-        int id = Integer.parseInt(idString);
+        int id = 0;
+        
+        try{
+            id = Integer.parseInt(idString);
+        } catch ( NumberFormatException nf ){
+            JOptionPane.showMessageDialog(null, "El id solo debe contener números");
+            return;
+        }
         
         Materia materia = new Materia();
-        // recupero los datos de la vista
+        
         materia.setId_materia(id);
-        materia.setNombre_materia(jtNombre.getText());
-        materia.setAnio(Integer.parseInt(jtAnio.getText()));
-        materia.setEstado(jchEstado.isSelected());
-        //TODO no me esta actualizando el estado
+        
+        // vereficacion del campo nombre
+        String nombreString = jtNombre.getText();
+        
+        if(nombreString.equals("")){
+            JOptionPane.showMessageDialog(null,"El nombre es requerido.");
+            return;
+        }
+        
+        materia.setNombre_materia(nombreString);
+        
+        // vereficacion del campo año
+        String anioString = jtAnio.getText();
+        
+        if(anioString.equals("")){
+            JOptionPane.showMessageDialog(null,"El año es requerido.");
+            return;
+        }
+        
+        int anio = 0;
+        
+        try{
+            anio = Integer.parseInt(anioString);
+        } catch ( NumberFormatException nf ){
+            JOptionPane.showMessageDialog(null, "El campo año solo admite números.");
+            return;
+        }
+        materia.setAnio(anio);
+        
         materiaData.modificarMateria(materia);
         // limpio los campos
         jtId.setText("");
