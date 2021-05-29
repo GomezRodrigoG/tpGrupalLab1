@@ -152,7 +152,7 @@ public class MateriaData {
             if(statement.executeUpdate() == 1){
                 JOptionPane.showMessageDialog(null,"Materia actualizada con exito.");
             } else {
-                JOptionPane.showMessageDialog(null,"No se actualizo.");
+                JOptionPane.showMessageDialog(null,"La materia no se pudo actualizar.");
             }
             
             statement.close();
