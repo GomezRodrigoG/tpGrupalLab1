@@ -1,25 +1,64 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*******Modificacion final*******/
 package universidadgrupo3.Vistas;
 
-import universidadgrupo3.Models.Alumno;
+import java.sql.SQLException;
+import java.util.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import universidadgrupo3.Models.*;
+import universidadgrupo3.controller.*;
 
 /**
  *
  * @author PC
  */
 public class CargasNotasView extends javax.swing.JInternalFrame {
-
+    private DefaultTableModel modelo = new DefaultTableModel();
+    private CursadaData cursadaD;
+    private AlumnoData alumnoD;
     /**
      * Creates new form CargasNotasView
      */
-    public CargasNotasView() {
+    public CargasNotasView(Context conexion) throws SQLException {
         initComponents();
+        cursadaD = new CursadaData(conexion);
+        alumnoD = new AlumnoData(conexion);
+        llenarCabezera();
+        cargarAlumnos();
     }
-
+    public void cargarAlumnos(){
+    List<Alumno> lista=alumnoD.getAllAlumnos();
+    for(Alumno it:lista){
+    jcbAlumnos.addItem(it);}
+    }
+    
+    public void llenarCabezera(){
+    ArrayList<Object> columna = new ArrayList<>();
+    columna.add("ID Cursada");
+    columna.add("Materia");
+    columna.add("Nota");
+    for(Object it:columna){
+    modelo.addColumn(it);
+    }
+    jtCursadas.setModel(modelo);
+    }
+    
+   
+    public void borrarFilasTabla(){
+    int e = modelo.getRowCount()-1;
+    for (int i=e;i>=0;i--){
+    modelo.removeRow(i);
+    }
+    }
+    
+    public void cargarDatos(){
+    borrarFilasTabla();
+    Alumno seleccionado = (Alumno) jcbAlumnos.getSelectedItem();
+    List<Cursada>lista=cursadaD.obtenerCursadasXAlumno(seleccionado.getId_alumno());
+    for(Cursada c:lista){
+    modelo.addRow(new Object[]{c.getId_cursada(), c.getMateria(),c.getNota()}) ;
+    }   
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,6 +86,12 @@ public class CargasNotasView extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("ALUMNO");
 
+        jcbAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbAlumnosActionPerformed(evt);
+            }
+        });
+
         jtCursadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -62,40 +107,51 @@ public class CargasNotasView extends javax.swing.JInternalFrame {
 
         jbGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbGuardar.setText("GUARDAR");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
 
         jbCancelar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jbCancelar.setText("CANCELAR");
+        jbCancelar.setText("SALIR");
+        jbCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(jbGuardar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbCancelar)
+                .addGap(106, 106, 106))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel2)
                         .addGap(52, 52, 52)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jcbAlumnos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jcbAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(161, 161, 161)
+                        .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jbGuardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbCancelar)
-                .addGap(85, 85, 85))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jcbAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -105,11 +161,42 @@ public class CargasNotasView extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbGuardar)
                     .addComponent(jbCancelar))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
+        cargarDatos();       
+    }//GEN-LAST:event_jcbAlumnosActionPerformed
+
+    private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jbCancelarActionPerformed
+
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        int filaSeleccionada=jtCursadas.getSelectedRow();
+        if(filaSeleccionada!=-1){
+        Alumno a=(Alumno)jcbAlumnos.getSelectedItem();
+        
+        int idInscripcion = (Integer)modelo.getValueAt(filaSeleccionada, 0);
+        Materia m=(Materia)modelo.getValueAt(filaSeleccionada, 1);
+        double nota = Double.valueOf(modelo.getValueAt(filaSeleccionada, 2).toString());
+        
+        int x =JOptionPane.showConfirmDialog(this, "Desea cambiar la nota?","ATENCION!!",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+        
+        if( x == JOptionPane.YES_OPTION){
+            /*Cursada c;
+            c = cursadaD.buscarCursada(idInscripcion);
+            c.setNota(nota);*/
+            cursadaD.actualizarNotaCursada(a.getId_alumno(), m.getId_materia(), nota);
+            borrarFilasTabla();
+            cargarDatos();
+            
+            }
+        }
+    }//GEN-LAST:event_jbGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -241,13 +241,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiSalirActionPerformed
 
     private void jmiManipulacionNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiManipulacionNotasActionPerformed
-        // TODO add your handling code here:
-        escritorio.removeAll();
-        escritorio.repaint();
-        CargasNotasView am = new CargasNotasView();
-        am.setVisible(true);
-        escritorio.add(am);
-        escritorio.moveToFront(am);
+        try {
+            // TODO add your handling code here:
+            escritorio.removeAll();
+            escritorio.repaint();
+            CargasNotasView am = new CargasNotasView(conexion);
+            am.setVisible(true);
+            escritorio.add(am);
+            escritorio.moveToFront(am);
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jmiManipulacionNotasActionPerformed
 
     private void jmiManejoInscripcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiManejoInscripcionesActionPerformed
