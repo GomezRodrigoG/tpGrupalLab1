@@ -254,7 +254,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         escritorio.removeAll();
         escritorio.repaint();
-        InscripcionView am = new InscripcionView();
+        InscripcionView am = null;
+        try {
+            am = new InscripcionView(conexion);
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null,"Error de conexion");
+        }
         am.setVisible(true);
         escritorio.add(am);
         escritorio.moveToFront(am);

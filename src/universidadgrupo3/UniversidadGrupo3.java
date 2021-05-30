@@ -87,12 +87,12 @@ public class UniversidadGrupo3 {
             //FUNCIONA//
             //System.out.println(cData.obtenerMateriasNOCursadas(4));
             
-        }catch(ClassNotFoundException e){
+       }catch(ClassNotFoundException e){
             JOptionPane.showMessageDialog(null,"Error al cargar los driver de conexion");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error de conexion");
+       } catch (SQLException ex) {
+            //JOptionPane.showMessageDialog(null,"Error de conexion");
         }
         
-    }
+   }
     
 }
